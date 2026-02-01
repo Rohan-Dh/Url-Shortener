@@ -131,7 +131,6 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'login'
 
-DEBUG = False
 # for the production environment, uncomment the following settings:
 
 # SESSION_COOKIE_SECURE = True
