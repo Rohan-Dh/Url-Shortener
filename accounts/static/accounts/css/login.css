@@ -1,0 +1,20 @@
+.wrap{
+  max-width: 420px;
+}
+
+.top-links{
+  display: flex;
+  justify-content: flex-end;
+  padding: 14px 18px 0 18px;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.top-links a{
+  color: #4f46e5;
+  font-weight: 600;
+}
+
+.top-links a:hover{
+  text-decoration: underline;
+}

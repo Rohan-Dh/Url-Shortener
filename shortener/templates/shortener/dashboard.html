@@ -1,0 +1,164 @@
+{% extends "common/base.html" %}
+{% load static %}
+
+{% block title %}Dashboard • URL Shortener{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'shortener/css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div class="container container-wide">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo">↗</div>
+        <div>
+          <h1>Dashboard</h1>
+          <p>Manage your short links & click stats</p>
+        </div>
+      </div>
+      <div class="actions">
+        <a class="btn btn-primary" href="{% url 'create' %}">➕ Create short URL</a>
+        <form method="post" action="{% url 'logout' %}" style="margin:0;">
+          {% csrf_token %}
+          <button class="btn" type="submit">⎋ Logout</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="grid-stack">
+      <!-- Summary card (now on top) -->
+      <div class="card">
+        <div class="card-header">
+          <h2>Quick stats</h2>
+          <div class="hint">Your links at a glance</div>
+        </div>
+        <div class="card-body">
+          <div class="stat-row">
+            <div>
+              <div class="label">Total links</div>
+              <div class="value">{{ urls|length }}</div>
+            </div>
+            <div class="pill">🔗 links</div>
+          </div>
+
+          <div class="stat-row">
+            <div>
+              <div class="label">Total clicks</div>
+              <div class="value">{{ total_clicks }}</div>
+            </div>
+            <div class="pill">📈 analytics</div>
+          </div>
+
+          <div class="empty">
+            Tip: Click <b>Create short URL</b> to add a new link. You can edit or delete any link anytime.
+          </div>
+        </div>
+      </div>
+
+      <!-- Links table -->
+      <div class="card">
+        <div class="card-header">
+          <h2>Your short URLs</h2>
+          <div class="hint">Click to copy / open</div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 30%;">Short</th>
+                <th>Original</th>
+                <th style="width: 14%;">Created</th>
+                <th style="width: 10%;">Clicks</th>
+                <th style="width: 18%;">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% if urls %}
+                {% for u in urls %}
+                  <tr>
+                    <td>
+                      <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                        <a class="link mono" href="/{{ u.code }}/" target="_blank">/{{ u.code }}</a>
+                        <button class="copy" type="button" data-copy="{{ request.scheme }}://{{ request.get_host }}/{{ u.code }}/">Copy</button>
+                      </div>
+                      {% if u.expires_at %}
+                        <div class="pill" style="margin-top:8px;">⏳ Expires: {{ u.expires_at|date:"M d, Y H:i" }}</div>
+                      {% endif %}
+                    </td>
+
+                    <td>
+                      <div style="max-width: 520px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+                        <a class="link" href="{{ u.original_url }}" target="_blank">{{ u.original_url }}</a>
+                      </div>
+                      {% if u.custom_alias %}
+                        <div class="pill" style="margin-top:8px;">✨ Custom: {{ u.custom_alias }}</div>
+                      {% endif %}
+                    </td>
+
+                    <td class="mono">{{ u.created_at|date:"Y-m-d" }}</td>
+                    <td class="mono">{{ u.clicks }}</td>
+
+                    <td>
+                      <div class="row-actions">
+                        <button
+                          class="btn btn-small btn-qr"
+                          type="button"
+                          data-qr-url="{% url 'auth-qr' u.code %}"
+                          data-qr-title="/{{ u.code }}"
+                        >📱 QR</button>
+
+                        <a class="btn btn-small" href="{% url 'edit' u.pk %}">✏️ Edit</a>
+                        <a class="btn btn-small btn-danger" href="{% url 'delete' u.pk %}">🗑 Delete</a>
+                      </div>
+                    </td>
+                  </tr>
+                {% endfor %}
+              {% else %}
+                <tr>
+                  <td colspan="5">
+                    <div class="empty">
+                      You don’t have any short URLs yet.<br/>
+                      Create your first link using <b>Create short URL</b>.
+                    </div>
+                  </td>
+                </tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QR Modal -->
+<div class="qr-modal" id="qrModal" aria-hidden="true">
+  <div class="qr-backdrop" data-close="qr"></div>
+
+  <div class="qr-card" role="dialog" aria-modal="true">
+    <div class="qr-head">
+      <div>
+        <div class="qr-title" id="qrTitle">QR Code</div>
+        <div class="qr-sub">Scan to open the short link</div>
+      </div>
+      <button class="qr-close" type="button" data-close="qr">✕</button>
+    </div>
+
+    <div class="qr-body">
+      <img id="qrImg" alt="QR Code" />
+    </div>
+
+    <div class="qr-actions">
+      <a class="btn btn-small" id="qrOpen" target="_blank">Open image</a>
+      <a class="btn btn-small btn-primary" id="qrDownload" download>Download</a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+
+{% block scripts %}
+<script src="{% static 'shortener/js/dashboard.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,161 @@
+/* static/css/base.css */
+/* Shared styles used by all pages */
+
+/* ---------- Base ---------- */
+* { box-sizing: border-box; }
+
+body{
+  margin: 0;
+  font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: #f6f8fb;
+  color: #111827;
+}
+
+a{ text-decoration: none; }
+
+/* ---------- Layout ---------- */
+.container{
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* Used by edit/delete pages */
+.page-center{
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+/* ---------- Buttons ---------- */
+.btn{
+  border: 1px solid #e5e7eb;
+  background: white;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.15s;
+}
+
+.btn:hover{ background: #f3f4f6; }
+
+.btn-primary{
+  background: #4f46e5;
+  border-color: #4f46e5;
+  color: white;
+}
+
+.btn-primary:hover{ background: #4338ca; }
+
+.btn-danger{
+  border-color: #fecaca;
+  color: #dc2626;
+}
+
+.btn-danger:hover{ background: #fee2e2; }
+
+.btn-small{
+  padding: 6px 10px;
+  font-size: 13px;
+}
+
+.btn-full{
+  width: 100%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ---------- Cards ---------- */
+.card{
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.06);
+  border: 1px solid #eef2f7;
+  overflow: hidden;
+}
+
+.card-header{
+  padding: 16px 18px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.card-header h2{
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.card-body{
+  padding: 18px;
+}
+
+.hint{
+  margin-top: 4px;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* ---------- Helpers ---------- */
+.pill{
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  background: #eef2ff;
+  color: #4338ca;
+  white-space: nowrap;
+}
+
+.mono{
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* ---------- Errors ---------- */
+.errors{
+  margin-top: 6px;
+  font-size: 12px;
+  color: #dc2626;
+}
+
+/* ---------- Forms (shared by create/edit) ---------- */
+.field{ margin-bottom: 14px; }
+
+.field label{
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 6px;
+}
+
+.field input,
+.field select,
+.field textarea{
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  font-size: 14px;
+  font-family: inherit;
+  background: white;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+  outline: none;
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79,70,229,0.15);
+}
+
+/* ---------- Actions row (shared) ---------- */
+.actions{
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}

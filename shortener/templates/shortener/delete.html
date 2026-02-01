@@ -1,0 +1,41 @@
+{% extends "common/base.html" %}
+{% load static %}
+
+{% block title %}Delete • URL Shortener{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'shortener/css/delete.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="page-center">
+    <div class="card delete-card">
+      <div class="card-body text-center">
+        <h1 class="delete-title">Delete short URL</h1>
+
+        <p class="delete-text">
+          Are you sure you want to permanently delete this short link?
+        </p>
+
+        <div class="delete-code mono">
+          /{{ obj.code }}
+        </div>
+
+        <form method="post">
+          {% csrf_token %}
+          <div class="actions center">
+            <a class="btn" href="{% url 'dashboard' %}">Cancel</a>
+            <button class="btn btn-danger" type="submit">Yes, delete</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+
+{% block scripts %}
+<script src="{% static 'shortener/js/delete.js' %}"></script>
+{% endblock %}

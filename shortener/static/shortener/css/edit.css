@@ -1,0 +1,11 @@
+/* static/css/edit.css */
+
+.form-card{
+  max-width: 520px;
+  width: 100%;
+}
+
+.actions.right{
+  justify-content: flex-end;
+  margin-top: 20px;
+}

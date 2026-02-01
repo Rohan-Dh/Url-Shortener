@@ -1,0 +1,62 @@
+{% extends "common/base.html" %}
+{% load static %}
+
+{% block title %}Edit • URL Shortener{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'shortener/css/edit.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="page-center">
+    <div class="card form-card">
+      <div class="card-header">
+        <h2>Edit Short URL</h2>
+        <div class="hint">Update destination, alias, or expiration</div>
+      </div>
+
+      <div class="card-body">
+        <form method="post">
+          {% csrf_token %}
+
+          <div class="field">
+            <label>Original URL</label>
+            {{ form.original_url }}
+            {% if form.original_url.errors %}
+              <div class="errors">{{ form.original_url.errors }}</div>
+            {% endif %}
+          </div>
+
+          <div class="field">
+            <label>Custom alias</label>
+            {{ form.custom_alias }}
+            {% if form.custom_alias.errors %}
+              <div class="errors">{{ form.custom_alias.errors }}</div>
+            {% endif %}
+          </div>
+
+          <div class="field">
+            <label>Expires at</label>
+            {{ form.expires_at }}
+            {% if form.expires_at.errors %}
+              <div class="errors">{{ form.expires_at.errors }}</div>
+            {% endif %}
+          </div>
+
+          <div class="actions right">
+            <a class="btn" href="{% url 'dashboard' %}">Cancel</a>
+            <button class="btn btn-primary" type="submit">Save changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+
+
+{% block scripts %}
+<script src="{% static 'shortener/js/edit.js' %}"></script>
+{% endblock %}

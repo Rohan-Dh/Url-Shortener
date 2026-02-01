@@ -1,0 +1,93 @@
+{% extends "common/base.html" %}
+{% load static %}
+
+{% block title %}Create • URL Shortener{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'shortener/css/create.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo">↗</div>
+        <div>
+          <h1>Create short URL</h1>
+          <p>Generate a clean short link and track clicks</p>
+        </div>
+      </div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <a class="btn" href="{% url 'dashboard' %}">← Back to dashboard</a>
+        <form method="post" action="{% url 'logout' %}" style="margin:0;">
+          {% csrf_token %}
+          <button class="btn" type="submit">⎋ Logout</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <h2>New link</h2>
+          <div class="hint">
+            Paste a long URL, optionally set a custom alias and an expiration time.
+          </div>
+        </div>
+        <div class="pill">🔒 Auth required</div>
+      </div>
+
+      <form method="post" class="card-body" novalidate>
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+          <div class="errors">{{ form.non_field_errors }}</div>
+        {% endif %}
+
+        <div class="field">
+          <label for="{{ form.original_url.id_for_label }}">Original URL</label>
+          {{ form.original_url }}
+          {% if form.original_url.errors %}
+            <div class="errors">{{ form.original_url.errors }}</div>
+          {% else %}
+            <div class="help">Example: https://example.com/some/very/long/link</div>
+          {% endif %}
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="{{ form.custom_alias.id_for_label }}">Custom alias (optional)</label>
+            {{ form.custom_alias }}
+            {% if form.custom_alias.errors %}
+              <div class="errors">{{ form.custom_alias.errors }}</div>
+            {% else %}
+              <div class="help">Example: <span class="mono">my-link</span> → <span class="mono">/my-link</span></div>
+            {% endif %}
+          </div>
+
+          <div class="field">
+            <label for="{{ form.expires_at.id_for_label }}">Expires at (optional)</label>
+            {{ form.expires_at }}
+            {% if form.expires_at.errors %}
+              <div class="errors">{{ form.expires_at.errors }}</div>
+            {% else %}
+              <div class="help">Leave empty for never expiring.</div>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="footer">
+          <a class="btn btn-full" href="{% url 'dashboard' %}">Cancel</a>
+          <button class="btn btn-primary btn-full" type="submit">✨ Create short URL</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+{% endblock %}
+
+
+{% block scripts %}
+<script src="{% static 'shortener/js/create.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Auth • URL Shortener{% endblock %}</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'accounts/css/auth_base.css' %}">
+
+  {% block css %}{% endblock %}
+</head>
+<body>
+  <div class="wrap">
+    {% block brand %}
+    <div class="brand">
+      <div class="logo">↗</div>
+      <div>
+        <h1>URL Shortener</h1>
+        <p>{% block brand_subtitle %}Welcome.{% endblock %}</p>
+      </div>
+    </div>
+    {% endblock %}
+
+    {% block content %}{% endblock %}
+
+    {% block after_card %}{% endblock %}
+  </div>
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>
