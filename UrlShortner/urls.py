@@ -5,5 +5,6 @@ from shortener.views import redirect_short_url
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('shortener.urls')),
-    path('', include('accounts.urls'))
+    path('', include('accounts.urls')),
+    path("<str:code>/", redirect_short_url, name="redirect_short_url"),
 ]
