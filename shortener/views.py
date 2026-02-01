@@ -7,6 +7,7 @@ from django.db.models import Sum
 import qrcode
 from io import BytesIO
 from django.http import HttpResponse
+from django.urls import reverse
 
 @login_required
 def dashboard(request):
@@ -75,7 +76,9 @@ def redirect_short_url(request, code: str):
 def public_qr_code_png(request, code: str):
     obj = get_object_or_404(ShortURL, code=code)
 
-    short_url = request.build_absolute_uri(f'/{obj.code}/')
+    short_url = request.build_absolute_uri(
+        reverse("redirect_short_url", kwargs={"code": obj.code})
+    )
 
     img = qrcode.make(short_url)
 
@@ -94,7 +97,9 @@ def auth_qr_code_png(request, code: str):
     if obj.owner != request.user:
         raise Http404("Not found")
 
-    short_url = request.build_absolute_uri(f'/{obj.code}/')
+    short_url = request.build_absolute_uri(
+        reverse("redirect_short_url", kwargs={"code": obj.code})
+    )
     img = qrcode.make(short_url)
 
     buffer = BytesIO()
